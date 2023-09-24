@@ -1,12 +1,12 @@
-import { USER_REPOSITORY } from 'src/utils/contants';
+import { REPORT_REPOSITORY } from 'src/utils/contants';
 import { Report } from './entities/report.entity';
 
-export const usersProviders = [
+export const reportsProviders = [
   {
-    provide: USER_REPOSITORY,
+    provide: REPORT_REPOSITORY,
     useValue: Report,
   },
 ];
 
-// this is the repository
-// this provider is used to communicate with the DB.
+// This is the almost a repository
+// This provider is used to communicate with the DB.

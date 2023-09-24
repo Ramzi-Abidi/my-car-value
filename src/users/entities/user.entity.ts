@@ -1,13 +1,29 @@
-import { Table, Column, Model } from 'sequelize-typescript';
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-@Table
-export class User extends Model {
-  @Column
+@Table // this table decorator will create an abstraction table to this "User" entity
+export class User extends Model<User> {
+  @Column({
+    type: DataType.STRING,
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4,
+  })
+  user_id: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+  })
   email: string;
 
-  @Column
-  password: number;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  password: string;
 
-  @Column
+  @Column({
+    type: DataType.STRING,
+  })
   name: string;
 }
