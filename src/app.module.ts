@@ -12,7 +12,6 @@ import { ReportModule } from './report/report.module';
     ReportModule,
     DatabaseModule, // establish connection between our app and database
     ConfigModule.forRoot(),   // by default it will take the objet in .env file
-    ReportModule,
   ],
   controllers: [AppController],
   providers: [AppService],

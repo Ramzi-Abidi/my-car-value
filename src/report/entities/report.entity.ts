@@ -1,10 +1,15 @@
-import { Table, Column, Model } from 'sequelize-typescript';
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-@Table
-export class Report extends Model {
-  @Column
-  id: number;
+@Table // this table decorator will create an abstraction table to this "User" entity
+export class Report extends Model<Report> {
+  @Column({
+    type: DataType.STRING,
+    primaryKey: true,
+  })
+  report_id: string;
 
-  @Column
+  @Column({
+    type: DataType.NUMBER,
+  })
   price: number;
 }
