@@ -23,7 +23,7 @@ export class SerializeInterceptor implements NestInterceptor {
 
     return handler.handle().pipe(
       map((userEntity: any) => {
-        console.log(userEntity);
+        console.log("hey", userEntity);
         return plainToClass(this.dto, userEntity, {
           excludeExtraneousValues: true, // this will ensure that only properties with expose() decorator will appear in the result
         });

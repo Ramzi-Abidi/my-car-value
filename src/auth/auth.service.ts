@@ -33,7 +33,7 @@ export class AuthService {
     console.log('result', result);
 
     // create the user
-    const createdUser: User = await this._userService.create(
+    const createdUser:User = await this._userService.create(
       name,
       email,
       result,

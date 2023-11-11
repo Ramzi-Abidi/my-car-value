@@ -10,6 +10,7 @@ import { UsersService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UserDto } from 'src/users/dto/user.dto';
 import { SigninUser } from 'src/users/dto/signin-user.dto';
+import { Serialize } from 'src/interceptors/serialize.Interceptor';
 
 @Controller('auth')
 export class AuthController {
@@ -18,6 +19,7 @@ export class AuthController {
     private readonly _authService: AuthService,
   ) {}
 
+  @Serialize(UserDto)
   @Post('/signup')
   signup(@Body() usersDetails: CreateUserDto) {
     try {

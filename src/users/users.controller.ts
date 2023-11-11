@@ -18,6 +18,7 @@ import {
   SerializeInterceptor,
 } from 'src/interceptors/serialize.Interceptor';
 import { UserDto } from './dto/user.dto';
+import { Observable } from 'rxjs';
 
 @Serialize(UserDto)
 @Controller('users')
@@ -79,4 +80,10 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this._usersService.remove(id);
   }
+
+  @Get("/whoAmI")
+  getUser() {
+
+  }
+
 }
