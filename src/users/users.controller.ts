@@ -8,46 +8,90 @@ import {
   Delete,
   Query,
   UseInterceptors,
-  ClassSerializerInterceptor,
+  HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { SerializeInterceptor } from 'src/interceptors/serialize.Interceptor';
+import {
+  Serialize,
+  SerializeInterceptor,
+} from 'src/users/interceptors/serialize.Interceptor';
+import { UserDto } from './dto/user.dto';
+import { CurrentUser } from 'src/users/decorators/current-user.decorator';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { CurrentUserInterceptor } from 'src/users/interceptors/current-user.interceptor';
+import { User } from './entities/user.entity';
 
-@Controller('auth')
+@Controller('users')
+@Serialize(UserDto)
+@UseGuards(AuthGuard)
+@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly _usersService: UsersService) {}
 
-  @Post('/signup')
+  @Get('/getUser')
+  getCurrSignedInUser(@CurrentUser() user: User) {
+    console.log("aa", user);
+    return user;
+  }
+
+  @Post('')
   create(@Body() body: CreateUserDto) {
-    const { email, password, name } = body;
-    return this.usersService.create(name, email, password);
+    try {
+      const { email, password, name } = body;
+      return this._usersService.create(name, email, password);
+    } catch (err) {
+      console.log(err);
+      throw new HttpException('Error occured, please try again later !', 500);
+    }
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll() {
-    return this.usersService.findAll();
+    try {
+      return this._usersService.findAll();
+    } catch (err) {
+      console.log(err);
+      throw new HttpException('Error occured, please try again later !', 500);
+    }
   }
 
-  @UseInterceptors(SerializeInterceptor)
+  @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    try {
+      return this._usersService.findOne(id);
+    } catch (err) {
+      console.log(err);
+      throw new HttpException('Error occured, please try again later !', 500);
+    }
   }
 
   @Get(':id')
   findByEmail(@Query('email') email: string) {
-    return this.usersService.findByEmail(email);
+    try {
+      return this._usersService.findByEmail(email);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   updateUserDetails(@Param('id') id: string, @Body() body: UpdateUserDto) {
-    return this.usersService.updateUserDetails(id, body);
+    try {
+      return this._usersService.updateUserDetails(id, body);
+    } catch (err) {
+      console.log(err);
+      throw new HttpException('Error occured, please try again later !', 500);
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+    return this._usersService.remove(id);
   }
 }

@@ -1,11 +1,9 @@
 import {
   BadRequestException,
-  ClassSerializerInterceptor,
   HttpException,
   Inject,
   Injectable,
   NotFoundException,
-  UseInterceptors,
 } from '@nestjs/common';
 import { USER_REPOSITORY } from 'src/utils/contants';
 import { User } from './entities/user.entity';
@@ -17,16 +15,9 @@ export class UsersService {
   ) {}
 
   async create(name: string, email: string, password: string) {
-    try {
-      const user = await this.findByEmail(email);
-      if (user) {
-        return new BadRequestException('User already exist !');
-      }
-      return await this.userRepository.create({ name, email, password });
-    } catch (err) {
-      console.log(err);
-      return new HttpException('Error occured please try again !', 500);
-    }
+    console.log(name, email, password);
+
+    return this.userRepository.create({ name, email, password });
   }
 
   async findAll() {
@@ -51,6 +42,8 @@ export class UsersService {
 
   async updateUserDetails(id: string, attributes: Partial<User>) {
     const user = await this.findOne(id);
+    console.log("aaaaa", user);
+    
     console.log(attributes);
     if (!user) {
       return new BadRequestException('User not found !');
@@ -74,8 +67,15 @@ export class UsersService {
       },
     });
   }
-}
-function UseInterceptorsnter(): (target: UsersService, propertyKey: "findOne", descriptor: TypedPropertyDescriptor<(id: string) => User>) => void | TypedPropertyDescriptor<(id: string) => User> {
-  throw new Error('Function not implemented.');
-}
 
+  getHashedPassword(password: string) {
+    return password.split('.')[1];
+  }
+}
+// function UseInterceptorsnter(): (
+//   target: UsersService,
+//   propertyKey: 'findOne',
+//   descriptor: TypedPropertyDescriptor<(id: string) => User>,
+// ) => void | TypedPropertyDescriptor<(id: string) => User> {
+//   throw new Error('Function not implemented.');
+// }

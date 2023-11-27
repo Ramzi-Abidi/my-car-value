@@ -8,3 +8,5 @@ export const REPORT_REPOSITORY: string = 'REPORT_REPOSITORY';
 export const jwtConstants = {
   secret: 'dsapdoaa56dee',
 };
+
+export const EXPIRES_IN = '7d';

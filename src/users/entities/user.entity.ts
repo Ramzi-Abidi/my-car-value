@@ -12,7 +12,7 @@ export class User extends Model<User> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true,
+    // unique: true,
   })
   email: string;
 
@@ -26,4 +26,16 @@ export class User extends Model<User> {
     type: DataType.STRING,
   })
   name: string;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
+  createdAt: Date;
+
+  @Column({
+    type: DataType.DATE,
+    defaultValue: DataType.NOW,
+  })
+  updatedAt: Date;
 }
