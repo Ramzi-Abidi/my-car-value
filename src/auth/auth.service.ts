@@ -3,6 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -33,7 +34,7 @@ export class AuthService {
     console.log('result', result);
 
     // create the user
-    const createdUser:User = await this._userService.create(
+    const createdUser: User = await this._userService.create(
       name,
       email,
       result,
@@ -52,7 +53,7 @@ export class AuthService {
     };
   }
 
-  async signin(email: string, password: string) {
+  async signin(req: Request, email: string, password: string) {
     const user: User = await this._userService.findByEmail(email);
 
     console.log(user);

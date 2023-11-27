@@ -12,7 +12,8 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     ReportModule,
     DatabaseModule, // establish connection between our app and database
-    ConfigModule.forRoot(), AuthModule,   // by default it will take the objet in .env file
+    ConfigModule.forRoot(),
+    AuthModule, // by default it will take the objet in .env file
   ],
   controllers: [AppController],
   providers: [AppService],

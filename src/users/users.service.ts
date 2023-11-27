@@ -1,11 +1,9 @@
 import {
   BadRequestException,
-  ClassSerializerInterceptor,
   HttpException,
   Inject,
   Injectable,
   NotFoundException,
-  UseInterceptors,
 } from '@nestjs/common';
 import { USER_REPOSITORY } from 'src/utils/contants';
 import { User } from './entities/user.entity';
@@ -44,6 +42,8 @@ export class UsersService {
 
   async updateUserDetails(id: string, attributes: Partial<User>) {
     const user = await this.findOne(id);
+    console.log("aaaaa", user);
+    
     console.log(attributes);
     if (!user) {
       return new BadRequestException('User not found !');
